@@ -38,17 +38,13 @@ jobs:
           mix deps.get --only $MIX_ENV
           # Note: compile is removed from this step
 
-      # FIX 2: Always run compile. 
+      # FIX 2: Always run compile.
       # Mix is fast and will only re-compile files that have changed.
       # This ensures you're testing against your latest source code.
       - name: Compile
         run: |
-            mix deps.get
-            mix compile --warning-as-errors
+          mix  deps.update heroicons 
+          mix compile --warning-as-errors
 
       - name: Run tests
         run: mix test --trace
-
-
-          
-
