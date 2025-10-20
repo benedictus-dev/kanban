@@ -1,4 +1,3 @@
-```github-actions-workflow
 name: CI/CD Elixir
 
 on:
