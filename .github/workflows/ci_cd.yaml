@@ -35,13 +35,13 @@ jobs:
       - name: Get dependencies
         if: steps.cache-deps.outputs.cache-hit != 'true'
         run: |
-          mix deps.get
-         
-      - name: Compile
-        run: mix compile --warning-as-errors
+          mix deps.get --only $MIX_ENV
+          mix compile --warning-as-errors
 
       - name: Run tests
-        run: mix test 
+        run: |
+            mix test 
 
 
           
+
