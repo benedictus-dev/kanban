@@ -1,7 +1,6 @@
 github-cli#!/usr/bin/env bash
 #install the necessary plugins
 plugins=(
-"github-cli"
 "packer"
 "terraform"
 "awscli"

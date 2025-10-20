@@ -31,6 +31,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-mix-
 
+
       - name: Get dependencies
         if: steps.cache-deps.outputs.cache-hit != 'true'
         run: |
@@ -39,3 +40,9 @@ jobs:
           rm -rf _build
           mix deps.get
           mix compile --warning-as-errors
+
+      - name: Run tests
+        run: mix test --max-failures 1 --trace --warnings-as-errors
+
+
+          
