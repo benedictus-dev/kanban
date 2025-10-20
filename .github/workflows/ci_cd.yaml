@@ -7,7 +7,7 @@ on:
 jobs:
   ci:
     runs-on: ubuntu-22.04
-    name: Compile
+    name: Compile and Test
     env:
       MIX_ENV: test
     steps:
@@ -24,28 +24,29 @@ jobs:
         uses: actions/cache@v4
         id: cache-deps
         with:
-          path: |
-            deps
-            _build
+          path: deps
           key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock')}}
           restore-keys: |
             ${{ runner.os }}-mix-
 
+      - name: Cache build
+        uses: actions/cache@v4
+        with:
+          path: _build
+          key: ${{ runner.os }}-build-${{ hashFiles('**/mix.lock')}}-${{ hashFiles('lib/**/*.ex')}}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ hashFiles('**/mix.lock')}}-
+            ${{ runner.os }}-build-
 
       - name: Get dependencies
         if: steps.cache-deps.outputs.cache-hit != 'true'
-        run: |
-          mix deps.clean --all
-          rm -rf deps
-          rm -rf _build
-          mix deps.get
-          mix deps.update --all
-          mix compile --warning-as-errors
+        run: mix deps.get
+
+      - name: Compile dependencies
+        run: mix deps.compile
+
+      - name: Compile application
+        run: mix compile --warning-as-errors
 
       - name: Run tests
-        run: |
-            mix deps.update --all 
-            mix test 
-
-
-          
+        run: mix test
