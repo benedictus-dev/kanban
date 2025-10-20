@@ -1,3 +1,4 @@
+```github-actions-workflow
 name: CI/CD Elixir
 
 on:
@@ -7,7 +8,7 @@ on:
 jobs:
   ci:
     runs-on: ubuntu-22.04
-    name: Compile and Test
+    name: Compile
     env:
       MIX_ENV: test
     steps:
@@ -24,29 +25,26 @@ jobs:
         uses: actions/cache@v4
         id: cache-deps
         with:
-          path: deps
+          path: |
+            deps
+            _build
           key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock')}}
           restore-keys: |
             ${{ runner.os }}-mix-
 
-      - name: Cache build
-        uses: actions/cache@v4
-        with:
-          path: _build
-          key: ${{ runner.os }}-build-${{ hashFiles('**/mix.lock')}}-${{ hashFiles('lib/**/*.ex')}}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ hashFiles('**/mix.lock')}}-
-            ${{ runner.os }}-build-
 
       - name: Get dependencies
         if: steps.cache-deps.outputs.cache-hit != 'true'
-        run: mix deps.get
-
-      - name: Compile dependencies
-        run: mix deps.compile
-
-      - name: Compile application
+        run: |
+          mix deps.get
+         
+      - name: Compile
         run: mix compile --warning-as-errors
 
       - name: Run tests
-        run: mix test
+        run: |
+            mix deps.update --all 
+            mix test 
+
+
+          
