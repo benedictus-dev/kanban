@@ -49,4 +49,4 @@ jobs:
         run: mix test --max-failures 1 --trace --warnings-as-errors
 
       - name: Check code is formatted
-        run: mix format --check-formated
+        run: mix format --check-formatted
