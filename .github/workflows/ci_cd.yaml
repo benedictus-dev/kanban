@@ -1,0 +1,26 @@
+name: CI/CD Elixir
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    name: Compile
+    env:
+      MIX_ENV: test
+    steps:
+      - name: Checkout from repository
+        uses: actions/checkout@v4
+
+      - name: Setup Elixir
+        uses: erlef/setup-beam@v1.17.3
+        with:
+          version-file: .tool-versions
+          version-type: strict
+
+      - name: Get dependencies
+        run: mix deps.get
+
+      - run: mix compile --warning-as-errors
