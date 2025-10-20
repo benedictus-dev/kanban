@@ -27,7 +27,7 @@ jobs:
           path: |
             deps
             _build
-          key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock')}}
+          key: ${{ runner.os }}-mix-${{ env.MIX_ENV }}-${{ hashFiles('**/mix.lock') }}-${{ steps.setup-beam.outputs.elixir-version }}-${{ steps.setup-beam.outputs.otp-version }}
           restore-keys: |
             ${{ runner.os }}-mix-
 
