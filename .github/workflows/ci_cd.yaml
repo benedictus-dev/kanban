@@ -29,7 +29,7 @@ jobs:
             _build
           key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock')}}
           restore-keys: |
-           ${{ runner.os }}-mix-
+            ${{ runner.os }}-mix-
 
       - name: Get dependencies
         if: steps.cache-deps.outputs.cache-hit != 'true'
@@ -37,7 +37,5 @@ jobs:
           mix deps.clean --all
           rm -rf deps
           rm -rf _build
-    
-      -   run: mix deps.get
-
-      - run: mix compile --warning-as-errors
+          mix deps.get
+          mix compile --warning-as-errors
