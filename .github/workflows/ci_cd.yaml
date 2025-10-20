@@ -39,6 +39,7 @@ jobs:
           rm -rf deps
           rm -rf _build
           mix deps.get
+          mix deps.update --all
           mix compile --warning-as-errors
 
       - name: Run tests
