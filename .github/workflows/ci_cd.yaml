@@ -33,6 +33,11 @@ jobs:
 
       - name: Get dependencies
         if: steps.cache-deps.outputs.cache-hit != 'true'
-        run: mix deps.get
+        run: |
+          mix deps.clean --all
+          rm -rf deps
+          rm -rf _build
+    
+      -   run: mix deps.get
 
       - run: mix compile --warning-as-errors
