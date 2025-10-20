@@ -27,20 +27,26 @@ jobs:
           path: |
             deps
             _build
-          key: ${{ runner.os }}-mix-${{ env.MIX_ENV }}-${{ hashFiles('**/mix.lock') }}-${{ steps.setup-beam.outputs.elixir-version }}-${{ steps.setup-beam.outputs.otp-version }}
+          # FIX 1: Hash both mix.exs and mix.lock
+          key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.exs', '**/mix.lock')}}
           restore-keys: |
             ${{ runner.os }}-mix-
-
 
       - name: Get dependencies
         if: steps.cache-deps.outputs.cache-hit != 'true'
         run: |
           mix deps.get --only $MIX_ENV
-          mix compile --warning-as-errors
+          # Note: compile is removed from this step
+
+      # FIX 2: Always run compile. 
+      # Mix is fast and will only re-compile files that have changed.
+      # This ensures you're testing against your latest source code.
+      - name: Compile
+        run: mix compile --warning-as-errors
 
       - name: Run tests
         run: |
-            mix test --trace
+            mix test
 
 
           
