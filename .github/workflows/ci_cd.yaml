@@ -42,7 +42,9 @@ jobs:
       # Mix is fast and will only re-compile files that have changed.
       # This ensures you're testing against your latest source code.
       - name: Compile
-        run: mix compile --warning-as-errors
+        run: |
+            mix deps.get
+            mix compile --warning-as-errors
 
       - name: Run tests
         run: mix test --trace
