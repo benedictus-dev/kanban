@@ -42,7 +42,7 @@ jobs:
           mix compile --warning-as-errors
 
       - name: Run tests
-        run: mix test && mix deps.get
+        run: mix test 
 
 
           
