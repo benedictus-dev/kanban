@@ -45,7 +45,7 @@ jobs:
         run: mix compile --warning-as-errors
 
       - name: Run tests
-        run: mix test
+        run: mix test --trace
 
 
           
