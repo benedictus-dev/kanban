@@ -60,5 +60,8 @@ jobs:
       - name: Run tests
         run: mix test --max-failures 1 --trace --warnings-as-errors
 
+      - name: Check unused dependencies
+        run: mix deps.unlock --check-unused
+        
       - name: Dialyzer static analysis
         run: mix dialyzer --format github
