@@ -79,11 +79,13 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GH_PAT }}
       - name: Docker meta
+        env:
+          GITHUB_USER: benedictus-dev
         id: meta
         uses: docker/metadata-action@v5
         with:
           images: |
-            ghcr.io/benedictus-dev/kanban:latest
+            ghcr.io/${{env.GITHUB_USER}}/kanban
           tags: |
             type=raw,value=latest,enable={{is_default_branch}}
             type=ref,event=pr
